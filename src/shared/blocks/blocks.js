@@ -190,7 +190,7 @@ export class BlocksSummaryList extends Component {
       blocks = [blocks];
     }
     return (
-      <table className='bx--data-table-v2'>
+      <table className='bx--data-table-v2 mobile-table'>
         <thead>
           <tr>
             <th>{t('block.id')}</th>
@@ -202,16 +202,16 @@ export class BlocksSummaryList extends Component {
         <tbody>
           {blocks.map((b: TBlock) => (
             <tr className='bx--parent-row-v2' data-parent-row>
-              <td>
+              <td mobile-label={t('block.id')} >
                 <Link to={`/blocks/${b.ID}`} className='link'>{singleColEllipsisText(b.ID, this.props.width, false)}</Link>
               </td>
-              <td style='text-align: center'>
+              <td mobile-label={t('meta.transactions')}>
                 {b.transfers}
               </td>
-              <td style='text-align: center'>
+              <td mobile-label={t('meta.executions')}>
                 {b.executions}
               </td>
-              <td style='text-align: center'>
+              <td mobile-label={t('meta.timestamp')}>
                 {fromNow(b.timestamp)}
               </td>
             </tr>
