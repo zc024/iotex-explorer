@@ -1,6 +1,7 @@
 const PRIVATE_KEY_LENGTH = 72;
 const PRIVATE_KEY_LENGTH_V2 = 64;
 const RAW_ADDRESS_LENGTH = 49;
+const RAW_ADDRESS_LENGTH_V2 = 41;
 
 const PRIVATE_KEY_REGEX = /^[A-Za-z0-9]+$/;
 const RAW_ADDRESS_REGEX = /^io[A-Za-z0-9]+$/;
@@ -28,7 +29,7 @@ export function isValidPrivateKey(str) {
 }
 
 export function isValidRawAddress(str) {
-  if (str.length !== RAW_ADDRESS_LENGTH) {
+  if (str.length !== RAW_ADDRESS_LENGTH && str.length !== RAW_ADDRESS_LENGTH_V2) {
     return 'input.error.raw_address.length';
   }
   if (str.match(RAW_ADDRESS_REGEX)) {
