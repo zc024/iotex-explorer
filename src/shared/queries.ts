@@ -442,3 +442,13 @@ export const GET_ANALYTICS_CHAIN = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_TOKEN_TRANSFER = gql`
+  query action($actHash: String) {
+    evmTransfers(actHash: $actHash) {
+      from
+      to
+      quantity
+    }
+  }
+`;

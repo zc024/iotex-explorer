@@ -132,7 +132,7 @@ class ActionDetailsInner extends PureComponent<Props> {
       }
     }
 
-    const actionUnion = {
+    const actionUnion: { [index: string]: string | number } = {
       actHash,
       blkHash,
       timestamp,
@@ -143,6 +143,10 @@ class ActionDetailsInner extends PureComponent<Props> {
       nonce: get(action, "core.nonce") || 0,
       ...object
     };
+
+    if (`${actionUnion.actionType}`.match(/execution/i)) {
+      actionUnion.evmTransfers = actHash;
+    }
 
     const dataSource = buildKeyValueArray(actionUnion);
     this.setState({ action, dataSource });

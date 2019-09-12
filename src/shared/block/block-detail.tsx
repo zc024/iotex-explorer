@@ -37,16 +37,23 @@ import { SpinPreloader } from "../common/spin-preloader";
 import { colors } from "../common/styles/style-color";
 import { PALM_WIDTH } from "../common/styles/style-media";
 import { ContentPadding } from "../common/styles/style-padding";
-import { GET_BLOCK_METAS, GET_BP_CANDIDATE } from "../queries";
+import {
+  GET_ANALYTICS_TOKEN_TRANSFER,
+  GET_BLOCK_METAS,
+  GET_BP_CANDIDATE
+} from "../queries";
 dayjs.extend(utc);
 // @ts-ignore
+
 import window from "global/window";
 import { connect } from "react-redux";
 import { Timestamp } from "../../api-gateway/resolvers/antenna-types";
-import { webBpApolloClient } from "../common/apollo-client";
+import { analyticsClient, webBpApolloClient } from "../common/apollo-client";
 import { CopyButtonClipboardComponent } from "../common/copy-button-clipboard";
 import { GET_LATEST_HEIGHT } from "../queries";
 
+import Col from "antd/lib/col";
+import Row from "antd/lib/row";
 type PathParamsType = {
   height: string;
 };
@@ -333,6 +340,45 @@ function queryRegisteredName(text: string, record: any): JSX.Element {
   );
 }
 
+const renderTokenTransfer = (actHash: string) => {
+  return (
+    <Query
+      client={analyticsClient}
+      query={GET_ANALYTICS_TOKEN_TRANSFER}
+      variables={{ actHash }}
+    >
+      {({ data }: QueryResult) => {
+        if (!data || !data.evmTransfers) {
+          return null;
+        }
+        return data.evmTransfers.map(
+          (
+            {
+              from,
+              to,
+              quantity
+            }: { from: string; to: string; quantity: string },
+            i: number
+          ) => {
+            return (
+              <Row justify="space-between" key={`token${actHash}${i}`}>
+                <Col>{t("action.tokenTransfers.from", { from })}</Col>
+                <Col>{t("action.tokenTransfers.to", { to })}</Col>
+                <Col>
+                  {t("action.tokenTransfers.for", {
+                    quantity,
+                    tokenName: "IOTX"
+                  })}
+                </Col>
+              </Row>
+            );
+          }
+        );
+      }}
+    </Query>
+  );
+};
+
 // tslint:disable:no-any
 export function renderValue(text: string, record: any): JSX.Element | string {
   switch (record.key) {
@@ -423,6 +469,8 @@ export function renderValue(text: string, record: any): JSX.Element | string {
           <CopyButtonClipboardComponent text={text} />
         </span>
       );
+    case "evmTransfers":
+      return renderTokenTransfer(text);
     default:
       return <span style={{ wordBreak: "break-word" }}>{text}</span>;
   }
