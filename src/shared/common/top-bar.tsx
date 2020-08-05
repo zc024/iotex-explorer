@@ -1,8 +1,9 @@
 // @ts-ignore
 import AntIcon from "antd/lib/icon";
 import Row from "antd/lib/row";
-import { Languages } from "iotex-react-language-dropdown";
-import { LanguageSwitcher } from "iotex-react-language-dropdown/lib/language-switcher";
+import LanguageSwitcher, {
+  Languages
+} from "../components/iotex-react-language-dropdown/src";
 import isBrowser from "is-browser";
 import { t } from "onefx/lib/iso-i18n";
 import { styled, StyleObject } from "onefx/lib/styletron-react";

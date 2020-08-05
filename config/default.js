@@ -84,6 +84,7 @@ module.exports = {
     "script-src": [
       "self",
       "unsafe-eval",
+      "unsafe-inline",
       "https://www.google-analytics.com/",
       "https://translate.google.com/",
       "https://translate.googleapis.com/",

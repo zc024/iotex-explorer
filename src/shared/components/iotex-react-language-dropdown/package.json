@@ -1,0 +1,123 @@
+{
+  "name": "iotex-react-language-dropdown",
+  "license": "MIT",
+  "version": "2.4.3",
+  "description": "field_description",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "test": "npm run cover",
+    "check-coverage": "nyc check-coverage --lines 65 --functions 60 --Statements 65",
+    "ava": "NODE_ENV=test ava",
+    "server": "node server",
+    "lint": "tslint --fix --project tsconfig.json -t stylish",
+    "qualitycheck": "npm-run-all typecheck tslint",
+    "cover": "tsc && NODE_ENV=test npm run lint && nyc npm run ava",
+    "size": "ls -lh lib/",
+    "bp": "npm run build && npm run size",
+    "build:js": "rm -rf ./lib && babel src/ --source-maps inline --extensions \".ts,.tsx,.js,.jsx\" --ignore **/__test__/**,src/**/**.test.ts -d lib",
+    "build:watch": "babel --watch src/**/*.ts -d lib",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build": "npm run build:js && npm run build:types",
+    "changelog-major": "build-changelog --major",
+    "changelog-minor": "build-changelog --minor",
+    "changelog-patch": "build-changelog --patch"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.test.ts",
+      "src/**/__tests__/**"
+    ],
+    "reporter": [
+      "lcov",
+      "text",
+      "text-summary",
+      "cobertura"
+    ],
+    "extension": [
+      ".tsx",
+      ".ts"
+    ],
+    "cache": true,
+    "temp-directory": "./coverage/.nyc_output"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:iotexproject/iotex-react-components.git"
+  },
+  "keywords": [],
+  "author": "field_author",
+  "bugs": {
+    "url": "https://github.com/iotexproject/iotex-react-components/issues"
+  },
+  "homepage": "https://github.com/iotexproject/iotex-react-components",
+  "devDependencies": {
+    "@babel/cli": "7.7.0",
+    "@babel/core": "7.7.0",
+    "@babel/plugin-proposal-class-properties": "7.7.0",
+    "@babel/preset-env": "7.7.1",
+    "@babel/preset-react": "7.7.0",
+    "@babel/preset-typescript": "7.7.0",
+    "@babel/register": "7.7.0",
+    "@types/node": "11.13.8",
+    "@types/react": "16.8.15",
+    "@types/react-redux": "7.0.8",
+    "@types/react-test-renderer": "16.8.1",
+    "antd": "3.16.6",
+    "ava": "2.4.0",
+    "awesome-typescript-loader": "5.2.1",
+    "babel-loader": "8.0.6",
+    "babel-plugin-module-resolver": "3.2.0",
+    "babel-plugin-react-require": "3.1.1",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "browser-env": "3.2.6",
+    "build-changelog": "2.1.2",
+    "global": "4.3.2",
+    "html-webpack-plugin": "3.2.0",
+    "husky": "2.7.0",
+    "nyc": "14.1.1",
+    "onefx": "1.5.3",
+    "prettier": "1.18.2",
+    "pretty-quick": "1.11.1",
+    "react": "16.8.6",
+    "react-test-renderer": "16.8.6",
+    "shader": "1.0.0",
+    "source-map-loader": "0.2.4",
+    "ts-node": "8.2.0",
+    "tslint": "5.18.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-microsoft-contrib": "6.1.1",
+    "tslint-require-connnect-typing": "1.0.1",
+    "typescript": "3.4.4",
+    "uglifyjs-webpack-plugin": "2.1.2",
+    "webpack": "4.36.1",
+    "webpack-bundle-analyzer": "3.3.2",
+    "webpack-cli": "3.3.3",
+    "webpack-dev-server": "3.4.1"
+  },
+  "peerDependencies": {
+    "@types/react": "^16.8.11",
+    "@types/react-redux": "^7.0.7",
+    "antd": "3.16.6",
+    "global": "^4.3.2",
+    "onefx": "1.5.3",
+    "react": "^16.8.6",
+    "shader": "1.0.0"
+  },
+  "engines": {
+    "node": "10.17.0",
+    "npm": "6.9.0"
+  },
+  "gitHead": "0f8468adb54e8a6657ad5c27e6a8c8e9783d8d3b"
+}

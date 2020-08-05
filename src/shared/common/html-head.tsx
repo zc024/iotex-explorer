@@ -68,6 +68,10 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
       ]}
     >
       <html lang={locale} />
+      <script
+        async
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      ></script>
     </Helmet>
   );
 }
