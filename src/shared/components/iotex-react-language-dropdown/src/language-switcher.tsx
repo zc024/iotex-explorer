@@ -66,14 +66,18 @@ const LanguageSwitcher = (props: Props) => {
   let noClickHappen: boolean = true;
 
   useEffect(() => {
-    console.log("------------");
+    console.log("-----window.google-------");
     googleTranslateElementInit();
   }, [window.google]);
 
   const googleTranslateElementInit = () => {
     const google = window.google;
-    if (google) {
-      console.log("------ok------");
+    if (google && typeof google.translate.TranslateElement === "function") {
+      console.log(
+        "------ok------",
+        google,
+        typeof google.translate.TranslateElement
+      );
       return new google.translate.TranslateElement(
         { autoDisplay: false },
         "google_translate_element"

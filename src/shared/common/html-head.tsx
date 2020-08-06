@@ -37,6 +37,10 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
           type: "text/javascript"
         },
         {
+          src: "https://translate.google.com/translate_a/element.js",
+          type: "text/javascript"
+        },
+        {
           src: assetURL("browser-solc.min.js"),
           type: "text/javascript"
         }
@@ -68,10 +72,10 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
       ]}
     >
       <html lang={locale} />
-      <script
+      {/* <script
         async
         src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-      ></script>
+      ></script> */}
     </Helmet>
   );
 }
