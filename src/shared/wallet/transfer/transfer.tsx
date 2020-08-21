@@ -1,6 +1,7 @@
 import Icon from "antd/lib/icon";
 import notification from "antd/lib/notification";
 import Select from "antd/lib/select";
+import { Link } from "react-router-dom";
 
 import Button from "antd/lib/button";
 import Form, { WrappedFormUtils } from "antd/lib/form/Form";
@@ -317,15 +318,9 @@ class TransferForm extends React.PureComponent<Props, State> {
     );
   };
 
-  public renderSendNew: JSX.Element = (
-    <Button
-      onClick={() => {
-        this.setState({
-          broadcast: null
-        });
-      }}
-    >
-      {`${t("wallet.transfer.sendNew")}`}
+  public renderComplete: JSX.Element = (
+    <Button>
+      <Link to="/wallet/transfer">{`${t("wallet.transfer.complete")}`}</Link>
     </Button>
   );
 
@@ -404,7 +399,9 @@ class TransferForm extends React.PureComponent<Props, State> {
 
     if (broadcast) {
       if (broadcast.success) {
-        return <BroadcastSuccess txHash={txHash} action={this.renderSendNew} />;
+        return (
+          <BroadcastSuccess txHash={txHash} action={this.renderComplete} />
+        );
       }
       return (
         <BroadcastFailure
@@ -412,7 +409,7 @@ class TransferForm extends React.PureComponent<Props, State> {
             token: t("account.testnet.token")
           })}
           errorMessage={""}
-          action={this.renderSendNew}
+          action={this.renderComplete}
         />
       );
     }

@@ -254,6 +254,7 @@ broadcast.fail.network: 'Die Transaktion konnte nicht an das Netzwerk gesendet w
 broadcast.error.message: 'Fehlermeldung:'
 broadcast.suggested.action: 'Empfohlene Aktionen:'
 wallet.transfer.sendNew: 'Neu senden'
+wallet.transfer.complete: Komplett
 wallet.transfer.startOver: 'Von vorn anfangen'
 render.key.nonce: Platzhalter
 wallet.vote.title: 'Abstimmung für einen Delegierten'
