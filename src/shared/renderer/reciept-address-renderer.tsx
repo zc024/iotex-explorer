@@ -2,6 +2,8 @@ import Col from "antd/lib/col";
 import Icon from "antd/lib/icon";
 import Row from "antd/lib/row";
 import BigNumber from "bignumber.js";
+// @ts-ignore
+import window from "global/window";
 import { t } from "onefx/lib/iso-i18n";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -14,10 +16,10 @@ import {
   StakeTransferOwnership,
   Transfer
 } from "../../api-gateway/resolvers/antenna-types";
-import { Token } from "../../erc20/token";
 import { LinkButton } from "../common/buttons";
 import { VerticalTableRender } from "../common/vertical-table";
 import { XRC20TokenValue } from "../common/xrc20-token";
+import { decodeData } from "../wallet/decode-contract-data";
 import { ContracAddressRenderer } from "./contract-address-renderer";
 import { WalletAddressRenderer } from "./wallet-address-renderer";
 
@@ -78,31 +80,32 @@ const ExecutionRenderer: VerticalTableRender<{
     contractAddress
   }
 }) => {
-  let decodedData;
   const contractAddr = contract || contractAddress;
   if (!contractAddr) {
     return null;
   }
-  try {
-    decodedData = Token.getToken(contractAddr).decode(`${data}`);
-  } catch (error) {
-    // tslint:disable-next-line:no-console
-    console.log(`Decode data failed!`);
-  }
-
+  const decodedData = decodeData(data, contractAddr);
   if (!decodedData) {
+    window.console.log(`Decode data failed! contractAddr: ${contractAddr}`);
     return <ContracAddressRenderer value={contractAddr} />;
   }
-
   const method = (decodedData && decodedData.method) || "";
+
   return (
     <Row type="flex" justify="start" align="top" gutter={20}>
       <Col span={24}>
         <ContracAddressRenderer value={contractAddr} />
       </Col>
       <Col span={24}>
-        <small className="auto-spacing">
-          {method.match(/transfer/i) ? (
+        <small
+          className="auto-spacing"
+          style={{
+            display: "block",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+          }}
+        >
+          {method.match(/transfer/i) && decodedData.data ? (
             <>
               <span style={{ textTransform: "uppercase" }}>
                 <Icon type="enter" style={{ transform: "rotateY(180deg)" }} />

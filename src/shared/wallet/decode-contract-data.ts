@@ -6,26 +6,28 @@ import {
 } from "iotex-antenna/lib/contract/abi-to-byte";
 import { fromBytes } from "iotex-antenna/lib/crypto/address";
 import { ERC20 } from "../../erc20";
+import { contractABIs } from "../../erc20/abi";
+import { Token } from "../../erc20/token";
+import { Dict } from "../common/types";
 import { getAntenna } from "./get-antenna";
 
 export interface DecodeData {
   method: string;
-  // tslint:disable-next-line: no-any
-  data: { [key: string]: any };
+  data?: Dict;
 }
 
 export function decode(
-  abi: string,
+  abi: string | Dict,
   data: string,
   contractAddress: string = "io1p99pprm79rftj4r6kenfjcp8jkp6zc6mytuah5"
 ): DecodeData {
   if (data.length < 8) {
     window.console.warn("input data error");
-    return { method: data, data: {} };
+    return { method: data, data: undefined };
   }
   const method = data.substr(0, 8);
 
-  const ABI = JSON.parse(abi);
+  const ABI = typeof abi === "string" ? JSON.parse(abi) : abi;
   const erc20: ERC20 = ERC20.create(contractAddress, getAntenna().iotx, ABI);
 
   const contractAbi = erc20.contract.getABI() as AbiByFunc;
@@ -61,7 +63,7 @@ export function decode(
           ).string();
         }
         // @ts-ignore
-        values[method.inputsNames[i]] = params[i];
+        values[methodDef.inputsNames[i]] = params[i];
       }
 
       return {
@@ -72,5 +74,28 @@ export function decode(
   }
 
   window.console.warn("can not found method");
-  return { method: data, data: {} };
+  return { method: data, data: undefined };
+}
+
+export function decodeData(
+  data: string | Buffer,
+  contractAddress: string = "io1p99pprm79rftj4r6kenfjcp8jkp6zc6mytuah5"
+): DecodeData | undefined {
+  let decodedData: DecodeData | undefined;
+  try {
+    decodedData = Token.getToken(contractAddress).decode(`${data}`);
+  } catch (error) {
+    Object.keys(contractABIs).every(name => {
+      try {
+        decodedData = decode(contractABIs[name], `${data}`, contractAddress);
+      } catch (error) {
+        decodedData = undefined;
+      }
+      if (decodedData && decodedData.data) {
+        return false;
+      }
+      return true;
+    });
+  }
+  return decodedData;
 }

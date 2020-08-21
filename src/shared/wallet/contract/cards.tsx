@@ -16,6 +16,7 @@ import { Flex } from "../../common/flex";
 import { formItemLayout } from "../../common/form-item-layout";
 import { rules, rulesMap } from "../../common/rules";
 import { colors } from "../../common/styles/style-color";
+import { numberWithCommas } from "../../common/vertical-table";
 import { inputStyle } from "../wallet";
 
 const { TextArea } = Input;
@@ -59,8 +60,14 @@ export const CardFunction = ({
             style={{ margin: "20px" }}
           />
         </Link>
-        <h3 style={{ fontSize: "1.2em", fontWeight: "bold" }}>{title}</h3>
-        <p style={{ color: colors.black60 }}>{description}</p>
+        <h3 style={{ fontSize: "1.2em", fontWeight: "bold", marginBottom: 0 }}>
+          {title}
+        </h3>
+        {description && (
+          <p style={{ color: colors.black60, marginTop: "0.5em" }}>
+            {description}
+          </p>
+        )}
         {moreUrl && (
           <Link to={moreUrl} style={{ color: colors.secondary }}>
             <Flex alignItems={"end"}>
@@ -222,6 +229,7 @@ export function AmountFormInputItem({
     >
       {getFieldDecorator("amount", {
         initialValue: initialValue,
+        normalize: value => numberWithCommas(`${value}`),
         rules: required ? rulesMap.transactionAmount : rulesMap.interactAmount
       })(<Input className="form-input" addonAfter={symbol} name="amount" />)}
     </Form.Item>

@@ -66,7 +66,8 @@ module.exports = {
       "https://api.github.com/",
       "https://iotexscan.io/",
       "https://testnet.iotexscan.io/",
-      "https://analytics.iotexscan.io/",
+      process.env.ANALYTICS_API_GATEWAY_URL ||
+        "https://analytics.iotexscan.io/",
       "https://iotex-analytics-testnet.herokuapp.com/",
       "wss://local.get-scatter.com:64102/",
       "https://testnet.iotexscan.io/api-gateway/"
@@ -99,7 +100,8 @@ module.exports = {
   analyticsApiGatewayUrl:
     process.env.CURRENT_CHAIN_NAME == "testnet"
       ? "https://iotex-analytics-testnet.herokuapp.com/query"
-      : "https://analytics.iotexscan.io/query",
+      : process.env.ANALYTICS_API_GATEWAY_URL ||
+        "https://analytics.iotexscan.io/query",
   multiChain: {
     current: process.env.CURRENT_CHAIN_NAME || "mainnet",
     chains: [
@@ -122,5 +124,8 @@ module.exports = {
     "io1hp6y4eqr90j7tmul4w2wa8pm7wx462hq0mg4tw",
     "io14j96vg9pkx28htpgt2jx0tf3v9etpg4j9h384m"
   ],
-  enableSignIn: false
+  enableSignIn: false,
+  siteVersion: `(build ${process.env.HEROKU_RELEASE_VERSION || "DEV"} ${String(
+    process.env.HEROKU_SLUG_COMMIT || ""
+  ).substr(0, 7)} )`
 };

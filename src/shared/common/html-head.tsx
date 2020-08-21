@@ -54,7 +54,7 @@ export function HtmlHead({ locale }: { locale: string }): JSX.Element {
           rel: "icon",
           type: "image/png",
           sizes: "any",
-          href: assetURL("/favi")
+          href: assetURL("favicon.png")
         },
 
         // styles
